@@ -1,0 +1,13 @@
+# Ignore node modules and build output
+node_modules/
+dist/
+build/
+.env
+
+# Optional: OS-specific junk
+.DS_Store
+Thumbs.db
+
+# IDE configs
+.vscode/
+.idea/

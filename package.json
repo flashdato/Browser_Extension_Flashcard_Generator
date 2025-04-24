@@ -1,0 +1,18 @@
+{
+    "name": "firefox-flashcards",
+    "version": "1.0.0",
+    "scripts": {
+        "build": "webpack --mode=development",
+        "watch": "webpack --watch"
+    },
+    "devDependencies": {
+        "@types/webextension-polyfill": "^0.12.3",
+        "ts-loader": "^9.0.0",
+        "typescript": "^5.0.0",
+        "webpack": "^5.0.0",
+        "webpack-cli": "^5.0.0"
+    },
+    "dependencies": {
+        "webextension-polyfill": "^0.10.0"
+    }
+}
