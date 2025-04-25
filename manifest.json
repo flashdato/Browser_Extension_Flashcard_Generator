@@ -1,26 +1,39 @@
 {
-    "manifest_version": 3,
-    "name": "Firefox Flashcards",
-    "version": "1.0",
-    "description": "Flashcard generator with hand gesture controls.",
-    "permissions": ["storage", "activeTab", "scripting"],
-    "action": {
-      "default_popup": "popup.html",
-      "default_icon": {
-        "48": "icon.png"
-      }
-    },
-    "background": {
-      "scripts": ["background.js"]
-    },
-    "content_scripts": [
-      {
-        "matches": ["<all_urls>"],
-        "js": ["content.js"]
-      }
-    ],
-    "icons": {
+  "manifest_version": 3,
+  "name": "Firefox Flashcards",
+  "version": "1.0",
+  "description": "Flashcard generator with hand gesture controls.",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
       "48": "icon.png"
     }
+  },
+  "background": {
+    "scripts": [
+      "background.js"
+    ]
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "../dist/content.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "icons": {
+    "48": "icon.png"
   }
-  
+}
