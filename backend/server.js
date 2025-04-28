@@ -24,6 +24,34 @@ app.post("/api/flashcards", async (req, res) => {
   }
 });
 
+// Get all flashcards
+app.get("/api/flashcards", async (req, res) => {
+  try {
+    const allCards = await pool.query("SELECT * FROM flashcards");
+    res.json(allCards.rows);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: "Failed to fetch flashcards" });
+  }
+});
+
+// Update flashcard difficulty
+app.patch("/api/flashcards/:id", async (req, res) => {
+  const { id } = req.params;
+  const { difficulty } = req.body;
+  try {
+    const update = await pool.query(
+      "UPDATE flashcards SET status = $1 WHERE id = $2 RETURNING *",
+      [difficulty, id]
+    );
+    res.json(update.rows[0]);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: "Failed to update flashcard" });
+  }
+});
+
+
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });

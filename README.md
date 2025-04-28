@@ -2,11 +2,12 @@
 
 ## Overview
 
-This Firefox browser extension enables users to interact with dynamically generated flashcards on web pages using hand gestures via webcam. The flashcards appear in the popup, and users can answer or navigate them using simple gestures, providing an intuitive and hands-free studying experience.
+This Firefox browser extension allows users to interact with dynamically generated flashcards on web pages using hand gestures via webcam. The extension now includes a **Review Page** where users can test their knowledge on previously studied flashcards. The flashcards appear in the popup or the review page, and users can answer or navigate them using simple gestures, providing an intuitive and hands-free studying experience.
 
 ## Features
 
 - Popup-based UI for accessing flashcards
+- **Review Page** for testing knowledge on flashcards
 - Hand gesture recognition (e.g., next, previous, reveal answer)
 - Full backend integration for flashcard data storage and retrieval
 - Works within Firefox browser context
@@ -34,7 +35,9 @@ Browser_Extension_Flashcard_Generator/
 ├── src/                    # Main source code
 │   ├── popup.ts            # Extension popup logic
 │   ├── content.ts          # Gesture and page interaction logic
-│   └── manager.ts          # Manages flashcard state and logic
+│   ├── manager.ts          # Manages flashcard state and logic
+│   ├── review.ts           # Logic for the review page
+│   └── review.html         # HTML for the review page
 ├── public/                 # Static files and manifest
 │   └── manifest.json       # WebExtension configuration
 ├── package.json            # NPM scripts and dependencies
@@ -45,7 +48,7 @@ Browser_Extension_Flashcard_Generator/
 
 ## Database Integration
 
-The backend now includes a `db.js` file to manage the connection to a PostgreSQL database. PostgreSQL is used to store and retrieve flashcard data efficiently. The database schema is designed to support features like user-specific flashcards, categories, and progress tracking.
+The backend includes a `db.js` file to manage the connection to a PostgreSQL database. PostgreSQL is used to store and retrieve flashcard data efficiently. The database schema supports features like user-specific flashcards, categories, progress tracking, and review history.
 
 ### Setting Up PostgreSQL
 
@@ -68,11 +71,11 @@ The backend now includes a `db.js` file to manage the connection to a PostgreSQL
   const { Pool } = require('pg');
 
   const pool = new Pool({
-     user: 'flash_user',
-     host: 'localhost',
-     database: 'flashcards',
-     password: 'securepassword',
-     port: 5432,
+    user: 'flash_user',
+    host: 'localhost',
+    database: 'flashcards',
+    password: 'securepassword',
+    port: 5432,
   });
 
   module.exports = pool;
@@ -86,53 +89,54 @@ The backend now includes a `db.js` file to manage the connection to a PostgreSQL
 ```javascript
 const pool = require('./db');
 
-// Example function to fetch flashcards
-async function getFlashcards() {
-   const result = await pool.query('SELECT * FROM flashcards');
-   return result.rows;
+// Example function to fetch flashcards for review
+async function getReviewFlashcards() {
+  const result = await pool.query('SELECT * FROM flashcards WHERE reviewed = false');
+  return result.rows;
 }
 
-module.exports = { getFlashcards };
+module.exports = { getReviewFlashcards };
 ```
 
 ## Build and Run Instructions
 
 1. **Install dependencies**:
 
-```bash
-npm install
-```
+  ```bash
+  npm install
+  ```
 
 2. **Build the extension**:
 
-```bash
-npm run build
-```
+  ```bash
+  npm run build
+  ```
 
 3. **Start the backend server**:
 
-```bash
-node backend/server.js
-```
+  ```bash
+  node backend/server.js
+  ```
 
 4. **Load the extension in Firefox**:
 
-- Open `about:debugging`
-- Click **"This Firefox"**
-- Click **"Load Temporary Add-on"**
-- Select the `public/manifest.json` file
+  - Open `about:debugging`
+  - Click **"This Firefox"**
+  - Click **"Load Temporary Add-on"**
+  - Select the `public/manifest.json` file
 
 5. **Test the extension**:
 
-- Click the extension icon
-- The popup UI will open
-- Use hand gestures in front of the webcam to interact with flashcards
-- Flashcard data will be fetched from the PostgreSQL database via the backend
+  - Click the extension icon to open the popup UI
+  - Use hand gestures in front of the webcam to interact with flashcards
+  - Navigate to the **Review Page** to test your knowledge on flashcards
+  - Flashcard data will be fetched from the PostgreSQL database via the backend
 
 ## Development Notes
 
 - `dist/` and `node_modules/` are excluded using `.gitignore`
-- Gesture recognition logic will be implemented in `content.ts`
+- Gesture recognition logic is implemented in `content.ts`
+- Review page logic is implemented in `review.ts` and `review.html`
 - All browser API interactions should use the polyfill: `import browser from 'webextension-polyfill';`
 - Backend API endpoints are defined in `backend/routes/`
 - Database queries and logic are handled in `backend/db.js`
