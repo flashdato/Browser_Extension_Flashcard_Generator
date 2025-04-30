@@ -5,34 +5,125 @@
   <title>Flashcard Review</title>
   <script defer src="../dist/review.js"></script>
   <style>
+    :root {
+      --bg: #f9f9f9;
+      --card-bg: #ffffff;
+      --primary: #4f46e5;
+      --danger: #dc2626;
+      --warning: #f59e0b;
+      --text: #111827;
+      --border-radius: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
+      margin: 0;
+      background: var(--bg);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
+      flex-direction: column;
       height: 100vh;
-      font-family: sans-serif;
+      padding: 2rem;
+      color: var(--text);
     }
+
     #flashcard {
-      border: 1px solid #ccc;
-      padding: 20px;
-      margin-bottom: 20px;
-      width: 300px;
+      background: var(--card-bg);
+      border-radius: var(--border-radius);
+      padding: 2rem;
+      width: 90%;
+      max-width: 600px;
+      min-height: 180px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+      font-size: 1.5rem;
       text-align: center;
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
+
+    .buttons {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
     .buttons button {
-      margin: 0 10px;
-      padding: 10px 20px;
-      font-size: 16px;
+      padding: 0.75rem 1.5rem;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      color: white;
+      transition: transform 0.1s ease-in-out, background 0.2s ease;
+    }
+
+    .buttons button:active {
+      transform: scale(0.98);
+    }
+
+    #easy {
+      background-color: var(--primary);
+    }
+
+    #hard {
+      background-color: var(--warning);
+    }
+
+    #impossible {
+      background-color: var(--danger);
+    }
+
+    #easy:hover {
+      background-color: #4338ca;
+    }
+
+    #hard:hover {
+      background-color: #d97706;
+    }
+
+    #impossible:hover {
+      background-color: #b91c1c;
+    }
+
+    #webcam {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      width: 320px;
+      height: 240px;
+      z-index: 9999;
+      border: 2px solid black;
+    }
+
+    @media (max-width: 480px) {
+      #flashcard {
+        font-size: 1.2rem;
+        padding: 1.5rem;
+      }
+
+      .buttons button {
+        width: 100%;
+      }
     }
   </style>
 </head>
 <body>
-  <div id="flashcard">Loading...</div>
+  <div id="flashcard">Loading flashcards...</div>
   <div class="buttons">
     <button id="easy">Easy</button>
     <button id="hard">Hard</button>
     <button id="impossible">Impossible</button>
   </div>
+
+  <!-- Webcam Video Element -->
+  <video id="webcam" autoplay></video>
 </body>
 </html>

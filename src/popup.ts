@@ -1,5 +1,6 @@
 import browser from "webextension-polyfill";
 import { FlashcardManager } from "./manager";
+import { startGestureRecognition } from "./gesture";
 
 const manager = new FlashcardManager();
 const list = document.getElementById("cards")!;
@@ -28,5 +29,17 @@ addButton.addEventListener("click", async () => {
     }
   }
 });
+
+function markAndNext(level: string) {
+  console.log("Marked as:", level);
+  // You can call API here to update flashcard difficulty
+  // and move to the next flashcard
+}
+
+startGestureRecognition(
+  () => markAndNext("easy"),
+  () => markAndNext("hard"),
+  () => markAndNext("impossible")
+);
 
 renderCards();

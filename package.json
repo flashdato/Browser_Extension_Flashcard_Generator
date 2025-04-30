@@ -13,6 +13,10 @@
         "webpack-cli": "^5.0.0"
     },
     "dependencies": {
+        "@mediapipe/hands": "^0.4.1675469240",
+        "@tensorflow-models/hand-pose-detection": "^2.0.1",
+        "@tensorflow-models/handpose": "^0.1.0",
+        "@tensorflow/tfjs": "^4.22.0",
         "webextension-polyfill": "^0.10.0"
     }
 }

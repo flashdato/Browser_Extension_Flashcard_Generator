@@ -51,7 +51,20 @@ app.patch("/api/flashcards/:id", async (req, res) => {
   }
 });
 
+app.post("/api/flashcards/:id/mark", async (req, res) => {
+  const { id } = req.params;
+  const { level } = req.body;
+  try {
+    await pool.query("UPDATE flashcards SET level = $1 WHERE id = $2", [level, id]);
+    res.status(200).json({ message: "Flashcard updated" });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: "Failed to update flashcard" });
+  }
+});
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
+
+
